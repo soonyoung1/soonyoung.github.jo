@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>시루떡 레시피 | 팥랩</title>
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: #fdf7f3;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .recipe-header {
+      text-align: center;
+      padding: 2rem 1rem 0.5rem;
+    }
+
+    .recipe-header h1 {
+      color: #7a4a24;
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .recipe-header p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+
+    .tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      background-color: #fcebe4;
+      color: #7a4a24;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+    }
+
+    .recipe-image-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: 1rem auto 2rem;
+    }
+
+    .recipe-image {
+      max-width: 550px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .info-box {
+      position: absolute;
+      bottom: 0px;
+      right: 20px;
+      background-color: #7a4a24;
+      color: white;
+      padding: 0.9rem 0.8rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .info-item {
+      text-align: center;
+    }
+
+    .info-item .label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      display: block;
+    }
+
+    .info-item .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .info-item .unit {
+      font-size: 0.85rem;
+      margin-left: 2px;
+    }
+
+    .nutrition-toggle-wrapper {
+      position: relative;
+      margin-top: 1rem;
+    }
+
+    .nutrition-button {
+      text-align: center;
+    }
+
+    .nutrition-button button {
+      background-color: #FDFBF9;
+      color: #7a4a24;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 1.2rem;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nutrition-button button:hover {
+      background-color: #f5f5f5;
+    }
+
+    #arrow {
+      font-size: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .nutrition-panel {
+      position: absolute;
+      top: 100%; 
+      left: 0;
+      background-color: #FDFBF9; 
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: max-content;
+      min-width: 240px;
+      display: none;
+      z-index: 10;
+      color: #333;
+    }
+
+    .nutrition-panel h3 {
+      margin-top: 0;
+      color: #7a4a24;
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .nutrition-panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nutrition-panel li {
+      padding: 0.3rem 0;
+    }
+
+    .nutrition-panel .note {
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .section-block {
+      max-width: 480px;
+      margin: 0 auto 2.5rem;
+      padding: 0 1rem;
+      text-align: left;
+    }
+
+    .section-block h2 {
+      font-size: 1.3rem;
+      color: #5a2a17;
+      margin: 1rem 0 0.7rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .section-block ul,
+    .section-block ol {
+      padding-left: 1.2rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      margin: 1rem 0;
+    }
+
+    .section-block li {
+      margin-bottom: 0.7rem;
+      line-height: 1.2;
+    }
+
+    .back-button {
+      text-align: center;
+      margin-top: 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .back-button a {
+      background-color: #7a4a24;
+      color: #fff;
+      padding: 0.7rem 1.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button a:hover {
+      background-color: #5d1f0f;
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-header">
+    <h1>시루떡</h1>
+    <p>고소한 팥과 쫄깃한 반죽이 층층이 어우러진 전통 떡, 시루떡! 특별한 날이나 정성 가득한 간식으로 좋은 시루떡을 집에서도 간편하게 만들어보세요.</p>
+    <div class="tags">
+      <div class="tag">#전통떡</div>
+      <div class="tag">#시루떡</div>
+      <div class="tag">#팥요리</div>
+    </div>
+  </div>
+
+  <div class="recipe-image-wrapper">
+    <img src="image/food9.jpg" alt="시루떡 이미지" class="recipe-image"/>
+    <div class="info-box">
+      <div class="info-row">
+        <div class="info-item">
+          <span class="label">준비시간</span>
+          <span class="value">5</span><span class="unit">분</span>
+        </div>
+        <div class="info-item">
+          <span class="label">조리시간</span>
+          <span class="value">24</span><span class="unit">시간</span>
+        </div>
+        <div class="info-item">
+          <span class="label">인분수</span>
+          <span class="value">4</span><span class="unit">인분</span>
+        </div>
+      </div>
+
+      <div class="nutrition-toggle-wrapper">
+        <div class="nutrition-button">
+          <button id="toggleNutrition">
+            📋 영양정보 알아보기 <span id="arrow">▼</span>
+          </button>
+        </div>
+
+        <div class="nutrition-panel" id="nutritionPanel">
+          <h3>레시피 영양정보</h3>
+          <ul>
+            <li><strong>칼로리(kcal)</strong>: 217</li>
+            <li><strong>탄수화물(g)</strong>: 46.8</li>
+            <li><strong>단백질(g)</strong>: 5.2</li>
+            <li><strong>총 지방(g)</strong>: 0.58</li>
+            <li><strong>포화지방(g)</strong>: 0.12</li>
+            <li><strong>다불포화지방(g)</strong>: 0.2</li>
+            <li><strong>불포화지방(g)</strong>: 0.19</li>
+            <li><strong>나트륨(mg)</strong>: 139</li>
+            <li><strong>칼륨(mg)</strong>: 154</li>
+          </ul>
+          <p class="note">※ 해당 수치는 100g 기준이며 재료·방법에 따라 다를 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>재료</h2>
+    <ul>
+      <li>습식쌀가루 500g</li>
+      <li>소금과 설탕: 쌀가루의 10%, 약 50g</li>
+      <li>팥 1컵 반</li>
+      <li>물 800ml</li>
+      <li>소금 0.5스푼</li>
+      <li>설탕 3스푼</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2>만드는 방법</h2>
+    <ol>
+      <li>쌀가루를 준비하고 체 쳐서 내립니다, 소금 조금 넣고, 설탕도 골고루 섞어 줍니다.</li>
+      <li>팥은 하룻밤 불려줍니다.</li>
+      <li>팥은 찬물을 붓고 삶아 줍니다. 끓기 시작하면서 새물을 넣고 약불로 30분 정도 넣고 푹 삶아 줍니다.</li>
+      <li>팥이 푹 무르면 팥물을 버리고, 중불로 팥에 남아 있는 수분을 날려줍니다. 절구로 빻아주고 소금과 설탕을 골고루 섞어 줍니다.</li>
+      <li>찜솥에 물에 젖은 보자기를 깔고 팥을 얇게 깔고 쌀가루를 넣고 얇게 펴 줍니다.</li>
+      <li>팥 한겹, 쌀가루 한겹 층층히 쌓아줍니다. 뚜껑 덮고 김이 오른 찜솥을 쪄주고, 10분 뜸들여 주시면 됩니다.</li>  
+    </ol>
+  </div>
+
+  <div class="back-button">
+    <a href="main.html#recipes">← 레시피 목록으로 돌아가기</a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("toggleNutrition");
+      const panel = document.getElementById("nutritionPanel");
+      const arrow = document.getElementById("arrow");
+
+      toggleBtn.addEventListener("click", () => {
+        const isOpen = panel.style.display === "block";
+        panel.style.display = isOpen ? "none" : "block";
+        arrow.textContent = isOpen ? "▼" : "▲";
+      });
+    });
+  </script>
+</body>
+</html>
+a

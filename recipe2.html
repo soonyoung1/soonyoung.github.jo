@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>팥빙수 레시피 | 팥랩</title>
+  <style>
+    /* 공통 스타일은 동일하게 유지 */
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: #fdf7f3;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .recipe-header {
+      text-align: center;
+      padding: 2rem 1rem 0.5rem;
+    }
+
+    .recipe-header h1 {
+      color: #7a4a24;
+      font-size: 2.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .recipe-header p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+
+    .tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tag {
+      background-color: #fcebe4;
+      color: #7a4a24;
+      padding: 0.3rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+    }
+
+    .recipe-image-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: 1rem auto 1.5rem;
+    }
+
+    .recipe-image {
+      width: 65%;
+      max-width: 600px;
+      display: block;
+      margin: 0 auto;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+
+    .info-box {
+      position: absolute;
+      bottom: -1px;
+      right: 25px;
+      background-color: #7a4a24;
+      color: white;
+      padding: 0.8rem 1rem;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .info-row {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .info-item {
+      text-align: center;
+    }
+
+    .info-item .label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      display: block;
+    }
+
+    .info-item .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .info-item .unit {
+      font-size: 0.85rem;
+      margin-left: 2px;
+    }
+
+    .nutrition-toggle-wrapper {
+      position: relative;
+    }
+
+    .nutrition-button button {
+      background-color: #FDFBF9;
+      color: #7a4a24;
+      border: none;
+      border-radius: 6px;
+      padding: 0.8rem 1.2rem;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nutrition-panel {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #FDFBF9;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: max-content;
+      min-width: 240px;
+      display: none;
+      z-index: 10;
+      color: #333;
+    }
+
+    .nutrition-panel h3 {
+      margin-top: 0;
+      color: #7a4a24;
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .nutrition-panel ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nutrition-panel li {
+      padding: 0.3rem 0;
+    }
+
+    .nutrition-panel .note {
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .section-block {
+      max-width: 500px;
+      margin: 0 auto 1.9rem;
+      padding: 0 1rem;
+      text-align: left;
+    }
+
+    .section-block h2 {
+      font-size: 1.3rem;
+      color: #5a2a17;
+      margin: 1rem 0 0.7rem;
+      font-weight: 700;
+    }
+
+    .section-block ul,
+    .section-block ol {
+      padding-left: 1.2rem;
+      margin: 1rem 0;
+    }
+
+    .section-block li {
+      margin-bottom: 0.3rem;
+      line-height: 1.6;
+    }
+
+    .back-button {
+      text-align: center;
+      margin-top: 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .back-button a {
+      background-color: #7a4a24;
+      color: #fff;
+      padding: 0.7rem 1.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="recipe-header">
+    <h1>팥빙수</h1>
+    <p>무더운 여름을 시원하게 식혀주는 달콤한 전통 디저트, 팥빙수를 만들어보세요!</p>
+    <div class="tags">
+      <div class="tag">#전통디저트</div>
+      <div class="tag">#여름별미</div>
+      <div class="tag">#빙수</div>
+      <div class="tag">#시원한간식</div>
+    </div>
+  </div>
+
+  <div class="recipe-image-wrapper">
+    <img src="image/food2.jpg" alt="팥빙수 이미지" class="recipe-image"/>
+    <div class="info-box">
+      <div class="info-row">
+        <div class="info-item">
+          <span class="label">준비시간</span>
+          <span class="value">4</span><span class="unit">시간</span>
+        </div>
+        <div class="info-item">
+          <span class="label">조리시간</span>
+          <span class="value">15</span><span class="unit">분</span>
+        </div>
+        <div class="info-item">
+          <span class="label">인분수</span>
+          <span class="value">2</span><span class="unit">인분</span>
+        </div>
+      </div>
+
+      <div class="nutrition-toggle-wrapper">
+        <div class="nutrition-button">
+          <button id="toggleNutrition">
+            📋 영양정보 알아보기 <span id="arrow">▼</span>
+          </button>
+        </div>
+        <div class="nutrition-panel" id="nutritionPanel">
+          <h3>레시피 영양정보</h3>
+          <ul>
+            <li><strong>칼로리(kcal)</strong>: 522</li>
+            <li><strong>나트륨(mg)</strong>: 166</li>
+            <li><strong>당류(g)</strong>: 75</li>
+            <li><strong>포화지방(g)</strong>: 5.6</li>
+            <li><strong>단백질(g)</strong>: 10</li>
+            <li><strong>카페인(mg)</strong>: 0</li>
+          </ul>
+          <p class="note">※ 해당 수치는 1인분 기준이며 실제 재료나 조리법에 따라 달라질 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>재료</h2>
+    <ul>
+      <li>우유 400ml</li>
+      <li>삶은 팥 앙금 : 200g</li>
+      <li>연유 : 적당량(취향에 따라)</li>
+      <li>떡, 과일, 시리얼 등 토핑</li>
+      <li>콩가루, 미숫가루, 견과류</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2>만드는 방법</h2>
+    <ol>
+      <li>팥은 충분히 불린 후 푹 삶아줍니다.</li>
+      <li>삶은 팥에 설탕을 넣고 졸여 단팥을 만듭니다.</li>
+      <li>우유를 지퍼백이나 밀폐 용기에 담아 얼린 후, 곱게 갈아줍니다.</li>
+      <li>곱게 갈린 우유 얼음을 그릇에 담아줍니다.</li>
+      <li>준비한 단팥, 연유, 떡, 과일 등을 취향껏 올려 완성합니다.</li>
+    </ol>
+  </div>
+
+  <div class="back-button">
+    <a href="main.html#recipes">← 레시피 목록으로 돌아가기</a>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("toggleNutrition");
+      const panel = document.getElementById("nutritionPanel");
+      const arrow = document.getElementById("arrow");
+
+      toggleBtn.addEventListener("click", () => {
+        const isOpen = panel.style.display === "block";
+        panel.style.display = isOpen ? "none" : "block";
+        arrow.textContent = isOpen ? "▼" : "▲";
+      });
+    });
+  </script>
+</body>
+</html>

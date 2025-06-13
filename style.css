@@ -1,0 +1,1046 @@
+/* ────────────────────────────────────────────────────
+   GLOBAL VARIABLES
+───────────────────────────────────────────────────── */
+:root{
+  --bean-red:#7B2E2E;
+  --cream:#F6F2EE;
+  --white:#ffffff;
+  --light:#f3e8df;       /* 시각적으로 구분되는 연한 살구색 */
+  --text:#2b2b2b;
+  --nav-bg-white:#ffffff;
+  --nav-bg-light:#f3e8df;
+  --gallery-bg:var(--cream);
+  --page-max:1280px;     /* 데스크톱 고정 폭 */
+  --header-h:64px;       /* 헤더 높이를 한 곳에서 관리 */
+}
+
+/* ────────────────────────────────────────────────────
+   RESET
+───────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Pretendard','Noto Sans KR',sans-serif;
+  background:var(--cream); color:var(--text);
+  display:flex; flex-direction:column; min-height:100vh;
+}
+
+/* ────────────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────────────── */
+header{
+  position:sticky; top:0px; z-index:100;
+  display:flex; align-items:center;             /* 세로 가운데 */
+  justify-content:space-between;                /* nav ←→ logo */
+  padding:1rem 2rem;
+  background:var(--cream);
+  transition:background-color .35s,box-shadow .35s;
+}
+header.white{background:var(--nav-bg-white);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+header.light{background:var(--nav-bg-light);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+/* Hero 영역 안에서 투명 헤더용 */
+header.transparent{background:transparent !important;box-shadow:none !important;}
+
+header nav{display:flex;gap:2rem;}              /* 메뉴 간격 */
+nav a{
+  text-decoration:none;color:var(--text);
+  font-weight:500;position:relative;transition:color .3s;
+}
+nav a::after{
+  content:'';position:absolute;left:0;bottom:-4px;width:100%;height:2px;
+  background:var(--bean-red);transform:scaleX(0);transform-origin:left;
+  transition:transform .3s;
+}
+nav a:hover::after,nav a.active::after{transform:scaleX(1)}
+nav a.active{color:var(--bean-red);font-weight:700}
+
+header .logo{
+  font-weight:700;font-size:1.3rem;color:var(--bean-red);
+}
+
+/* ────────────────────────────────────────────────────
+   HERO
+───────────────────────────────────────────────────── */
+main.hero{
+  height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:0 2rem;
+}
+.bean-icon{width:160px;height:160px;margin-bottom:1.5rem;animation:bob 3s ease-in-out infinite;cursor:pointer}
+h1{font-size:clamp(2.5rem,5vw,4rem);color:var(--bean-red);margin-bottom:1rem;font-weight:700}
+p.tagline{font-size:clamp(1rem,2.5vw,1.3rem);max-width:600px}
+
+/* ────────────────────────────────────────────────────
+   SECTION LAYOUT
+───────────────────────────────────────────────────── */
+.section{
+  padding:3rem 1.5rem;
+  border-top:2px solid #eee;
+  text-align:center;
+  transition:background-color .3s;
+}
+.section h2{font-size:1.8rem;color:var(--bean-red);margin-bottom:.8rem}
+.section p{max-width:600px;margin:0 auto 1.2rem;font-size:1.05rem;line-height:1.5}
+
+/* ★ 내부 고정 폭 래퍼 */
+.section-inner{
+  width:100%;max-width:var(--page-max);
+  margin:0 auto;padding:0 1.5rem;
+}
+
+/* ★ 4개 메인 섹션 – 한 화면 꽉 채우기 */
+/* 한 화면 꽉 채우는 4개 섹션을 위쪽 정렬 + 여백 */
+#about,#recipes,#story,#lab{
+  min-height:100vh; display:flex; flex-direction:column;
+  justify-content:flex-start; padding-top:5rem;
+}
+
+.site-footer {
+  position: fixed;    /* 뷰포트 기준으로 고정 */
+  bottom: 0;          /* 화면 맨 아래 */
+  left: 0;
+  width: 100%;        /* 가로 꽉 채우기 */
+  background: #F3E8DF;
+  padding: .8rem 0;
+  text-align: center;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+  z-index: 100;       /* 다른 요소 위로 */
+}
+
+.story-article footer.story-footer {
+  position: static;
+  margin-top: 1.5rem;
+  padding-top: .8rem;
+  border-top: 1px solid #ddd;
+  text-align: left;        /* ← 왼쪽 정렬 */
+  color: #666;
+  font-size: .95rem;       /* ← 폰트 사이즈를 약간 키움 */
+  line-height: 1.6;        /* 읽기 편한 줄간격 */
+}
+
+
+/* ── 본문과 푸터가 겹치지 않도록 여백 확보 ── */
+body {
+  padding-bottom: 3.2rem;  /* site-footer 높이에 맞춰 조절 */
+}
+/* ────────────────────────────────────────────────────
+ABOUT – 서브탭
+───────────────────────────────────────────────────── */
+.subtab-list{display:flex;justify-content:center;gap:2rem;list-style:none;padding:0;margin:1rem 0;border-bottom:1px solid #ccc}
+.subtab-item{font-size:1rem;font-weight:600;color:#444;cursor:pointer;position:relative;padding:.5rem;transition:color .3s}
+.subtab-item::after{content:'';position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--bean-red);transition:width .3s}
+.subtab-item:hover::after,.subtab-item.active::after{width:100%}
+.subtab-item:hover,.subtab-item.active{color:var(--bean-red)}
+
+.subtab-content{display:none;line-height:1.6;font-size:.95rem;color:var(--text);max-width:800px;margin:1rem auto 0}
+.subtab-content.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.content-title{font-size:1.1rem;font-weight:700;color:var(--bean-red);margin:1.4rem 0 .6rem;display:flex;align-items:center}
+.content-title .icon{font-size:1.3rem;margin-right:.4rem}
+.content-block{background:#f5f6f7;border-radius:18px;padding:1.2rem 1.4rem;margin-bottom:1.4rem;text-align:left;box-shadow:0 1px 3px rgba(0,0,0,.03)}
+.content-block ul{list-style:disc;padding-left:1.2rem;margin:0}
+.content-block li{font-size:.9rem;line-height:1.5;color:var(--text);margin-bottom:.3rem}
+
+/* ────────────────────────────────────────────────────
+   PRICE TABLE & INFO LIST
+───────────────────────────────────────────────────── */
+.price-table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.95rem}
+.price-table th,.price-table td{border:1px solid #ccc;padding:.6rem;text-align:center}
+.price-table thead{background:#f3f3f3}
+.price-table tbody tr:nth-child(even){background:#fafafa}
+.info-list{list-style:disc;padding-left:1.4rem;line-height:1.6;font-size:.95rem;color:var(--text)}
+
+/* ────────────────────────────────────────────────────
+   RECIPE GALLERY
+───────────────────────────────────────────────────── */
+.recipe-gallery{background:var(--cream);text-align:center;padding:3rem 1rem}
+.recipe-gallery h2{color:var(--bean-red);font-size:1.8rem;margin-bottom:.5rem}
+.recipe-gallery p{color:#444;font-size:1rem;margin-bottom:2rem}
+.recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;max-width:960px;margin:0 auto}
+a.recipe-card{border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.05);aspect-ratio:1/1;transition:transform .3s;display:block}
+a.recipe-card img{width:100%;height:100%;object-fit:cover;display:block}
+a.recipe-card:hover{transform:scale(1.03)}
+.recipe-item img{width:100%;height:auto;object-fit:cover;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.08);transition:transform .3s}
+.recipe-item img:hover{transform:scale(1.05)}
+
+/* ────────────────────────────────────────────────────
+   STORY – CARD GRID
+───────────────────────────────────────────────────── */
+.story-interactive{background:var(--white)}
+#story .story-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.8rem;max-width:100%;margin:2rem auto;
+}
+.story-card{
+  background:#fff8f5;border-radius:12px;padding:1.4rem 1rem;
+  cursor:pointer;transition:transform .3s,box-shadow .3s;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;align-items:center;height:100%;text-align:center;
+}
+.story-card:hover{transform:scale(1.03);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.story-card img{width:150px;height:150px;object-fit:contain;margin-bottom:1rem}
+.story-card h3{font-size:1rem;color:var(--bean-red);margin:0;line-height:1.4}
+
+/* ────────────────────────────────────────────────────
+   STORY – DETAIL BOX (카드 아래)
+───────────────────────────────────────────────────── */
+.story-detail-box{
+  max-width:760px;margin:2.5rem auto 1rem;padding:1.5rem;
+  background:#fdf4ef;border-left:6px solid var(--bean-red);
+  border-radius:8px;text-align:left;display:none;
+}
+.story-detail-box h3{color:var(--bean-red);margin-bottom:.6rem}
+.story-detail-box p{color:#333;line-height:1.6}
+
+/* ────────────────────────────────────────────────────
+   STORY – POPUP
+───────────────────────────────────────────────────── */
+.story-popup{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.65);backdrop-filter:blur(2px);z-index:1000}
+.story-popup[aria-hidden="false"]{display:flex}
+.story-article{
+  max-width:640px;width:90%;max-height:90vh;
+  padding:2rem 2.2rem;overflow-y:auto;
+  background:#fff;color:var(--text);
+  border-radius:1.2rem;box-shadow:0 12px 28px rgba(0,0,0,.25);
+  animation:scaleIn .35s;
+}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+
+.story-article header{
+  display:flex;flex-direction:column;
+  background:#f6f2ee;padding:1rem 1.2rem;
+  margin:-2rem -2.2rem 2rem;border-radius:.8rem .8rem 0 0;
+}
+.story-article header h2{
+  font-size:1.6rem;color:var(--bean-red);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.story-article .subtitle{color:#868686;font-size:.9rem;margin:.4rem 0 0}
+.story-article h3{color:var(--bean-red);font-size:1.15rem;margin:1.2rem 0 .4rem}
+.story-article ul{list-style:disc;padding-left:1.3rem;margin:.3rem 0}
+.story-article li{margin-bottom:.35rem;line-height:1.55}
+.story-article figure{margin:1.4rem 0}
+.story-article figcaption{font-size:.8rem;color:#666}
+.story-article .tip{
+  background:#fdf4ef;border-left:4px solid var(--bean-red);
+  padding:.8rem 1rem;margin-top:.8rem;font-size:.9rem;
+}
+.story-article section:first-of-type{margin-top:3.5rem}
+.story-article section+section{margin-top:2.2rem}
+.story-article p,.story-article ul{line-height:1.7}
+
+.close-btn{
+  position:absolute;top:1.1rem;right:1.6rem;
+  font-size:2rem;line-height:1;color:#fff;background:none;border:none;
+  cursor:pointer;transition:transform .2s;
+}
+.close-btn:hover{transform:rotate(90deg)}
+
+/* ────────────────────────────────────────────────────
+   LAB – 기본 레이아웃 (요약)
+───────────────────────────────────────────────────── */
+.lab-wrapper{background:var(--light)}
+.lab-tab-list{display:flex;justify-content:center;gap:2rem;margin:1.6rem 0 2rem;padding:0;list-style:none}
+.lab-tab{cursor:pointer;font-weight:600;color:#555;position:relative;padding:.4rem .6rem}
+.lab-tab.active{color:var(--bean-red)}
+.lab-tab::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--bean-red);transition:width .3s}
+.lab-tab.active::after{width:100%}
+.lab-content{display:none;max-width:100%;margin:0 auto}
+.lab-content.active{display:block;animation:fadeIn .3s}
+
+/* 내부 실험 이미지·차트 등은 HTML에서 사용한 클래스에 맞춰 추가로 작성 */
+
+/* ────────────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────────────── */
+@media (max-width:640px){
+  .story-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:420px){
+  .story-grid{grid-template-columns:1fr}
+}
+@media (max-width:768px){
+  :root{--page-max:100%}     /* 모바일에서 고정 폭 풀기 */
+}
+
+/* 카드 레이아웃 */
+.boil-facts{
+  display:flex; gap:1rem; flex-wrap:wrap;
+  justify-content:center; margin-top:1.5rem;
+}
+.fact-card{
+  background:#fff8f5; border-left:4px solid var(--bean-red);
+  border-radius:10px; padding:1rem 1.3rem; max-width:240px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06); font-size:.93rem;
+}
+.fact-card h4{margin:0 0 .35rem;color:var(--bean-red);font-size:1rem;}
+.fact-card ul{margin:.3rem 0 0 1rem;padding:0;list-style:disc;}
+.fact-card li{margin-bottom:.25rem;line-height:1.45;}
+
+.nutri-table{
+  width:auto;                 /* 가로폭 내용만큼 */
+  max-width:480px;            /* 필요 시 제한폭 */
+  margin:1rem auto;           /* 가운데 정렬 */
+  border-collapse:collapse;
+  font-size:.95rem;
+  background:transparent;     /* 표 전체 배경 제거 */
+}
+.nutri-table th,
+.nutri-table td{
+  border:1px solid #ccc;
+  padding:.6rem;
+  text-align:center;
+  background:transparent;     /* 셀 배경 투명 */
+}
+.nutri-table thead{background:#f3f3f3;} /* 헤더만 약간 강조 */
+
+
+.compare-highlights{display:flex;justify-content:center;flex-wrap:wrap;gap:1rem;margin-top:1rem}
+.card{
+  background:#fff8f5;border-left:4px solid var(--bean-red);
+  border-radius:10px;padding:1rem 1.2rem;max-width:240px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);font-size:.9rem
+}
+.card h4{margin:0 0 .4rem;color:var(--bean-red);font-size:1rem}
+.card ul{margin:.3rem 0 0 1rem;list-style:disc}
+.card li{margin-bottom:.25rem;line-height:1.45}
+
+/* ── Hero 배경 그라데이션 이미지 (cover + 스크롤 고정) ── */
+main.hero{
+  background:url("image/gradient-bg-white.png") center/cover no-repeat fixed;
+  margin-top:-64px;   /* 헤더 높이(64px)만큼 위로 이동 */
+  padding-top:64px;
+}
+
+main.hero::after{
+  content:"";
+  position:absolute; inset:0;         /* hero 전체 덮기 */
+  pointer-events:none; z-index:-1;     /* 클릭 안 막고 뒤로 */
+  backdrop-filter:blur(6px) saturate(120%);
+}
+
+/* header 가 ‘Hero’ 구간에 겹칠 땐 완전 투명 */
+/* Hero(첫 화면) 안에서 투명으로 보일 때 쓰는 클래스 */
+header.transparent{
+  background:transparent !important;
+  box-shadow:none !important;     /* 그림자까지 제거 */
+}
+
+/* ─────────── Header 정렬 수정 ─────────── */
+/* 메뉴(About / Work …)를 로고 오른쪽이 아닌 **왼쪽**에 세로로 나열 */
+/* ─── Header (메뉴 ↖︎ / 로고 ↗︎) ──────────── */
+header{
+  display:flex; align-items:center;
+  padding:1rem 2rem;
+}
+
+/* 메뉴는 왼쪽에 우겨넣기 */
+header nav{
+  display:flex; gap:2rem;
+  margin-right:auto;        /* ← 가장 왼쪽 붙임 */
+}
+
+/* 로고는 오른쪽 끝으로 */
+header .logo{
+  margin-left:auto;         /* ↗︎ 오른쪽 끝 */
+  font-weight:700; font-size:1.3rem; color:var(--bean-red);
+}
+@keyframes bob{
+  0%,100%{transform:translateY(0)   rotate(var(--rot,0deg));}
+  50%   {transform:translateY(-12px) rotate(var(--rot,0deg));}
+}
+/* ── Hero 단일 레터링 ───────────────────────────── */
+/* ─── Hero 전체 ─────────────────────────── */
+.hero{
+  position:relative;
+  height:100vh;
+  display:flex;justify-content:center;align-items:center;
+  overflow:hidden;
+  /* ❌ main.hero 위쪽에서 이미 같은 배경을 줬는데
+        또 작성하면 불필요한 중복 ─ 제거하거나 유지 하나만 */
+  /* background:url("image/gradient-bg-white.png") center/cover no-repeat fixed; */
+}
+
+/* ────────────────────────────── 3. 대형 레터링 ─── */
+.slogan{
+  font-family:'Bodoni Moda','Didot',serif;
+  font-weight:900;
+  font-style:italic;
+  line-height:.8;
+  color:var(--bean-red);
+  text-transform:uppercase;
+  transform:skew(-8deg) rotate(-3deg);
+  pointer-events:none; user-select:none;
+  text-align:center;
+}
+.slogan span{
+  display:block;
+  font-size:17vw;          /* 필요시 조절 */
+  letter-spacing:-.03em;
+}
+@media (max-width:720px){
+  .slogan span{font-size:45vw;}
+}
+
+/* ────────────────────────────── 4. 장식 아이콘 ─── */
+.hero-icon{
+  position:absolute;
+  width:10vw; max-width:140px;
+  user-select:none; pointer-events:none;
+  filter:drop-shadow(0 4px 6px rgba(0,0,0,.22));
+
+  /* 🌟 초기에도 회전 적용 + 애니메이션 유지 */
+  transform:rotate(var(--rot,0deg));
+  animation:bob 4s ease-in-out infinite both;   /* both = 0% 상태 유지 */
+}
+
+@media(max-width:600px){
+  .hero-icon{width:16vw;max-width:96px;}
+}
+
+/* 개별 위치 · 각도 · bob 시차 */
+.icon-flask  { --rot:-8deg;  top:22vh; left:75vw; width:90px; animation-delay:-0.4s; }
+.icon-patjuk { --rot: 5deg;  top:65vh; left:15vw;               animation-delay:-1.1s; }
+.icon-spoon  { --rot:-15deg; top:23vh; left:23vw; width:110px;   animation-delay: 0.6s; }
+.icon-bean   { --rot: 0deg;  top:55vh; left:70vw; transform:rotate(var(--rot)); animation-delay:-0.8s; }
+
+/* ② 웃는 Bean 아이콘 → 우측 하단으로 치워두기 (추후 애니메이션 등 사용) */
+.bean-icon{
+  position:absolute;
+  right:17vw; bottom:12vh;
+  width:100px;height:100px;
+  --rot:0deg;                         /* bob 에서 쓸 회전 기본값 */
+  animation:bob 4s ease-in-out infinite;
+}
+
+/* ─── 공통 스크롤-리빌 ───────────────────────────── */
+.scroll-reveal{
+  opacity:0;
+  transform:translateY(24px);          /* 밑에서 위로 */
+  transition:opacity .6s ease, transform .6s ease;
+}
+
+.scroll-reveal.show{
+  opacity:1;
+  transform:none;
+}
+/* 옵션: 다른 방향·효과가 필요할 때 추가 클래스 */
+.scroll-left  { transform:translateX(-40px); }
+.scroll-right { transform:translateX( 40px); }
+.scroll-up    { transform:translateY( 40px); }
+.scroll-down  { transform:translateY(-40px); }
+.scroll-scale { transform:scale(.9);        }
+.scroll-left.show,
+.scroll-right.show,
+.scroll-up.show,
+.scroll-down.show,
+.scroll-scale.show{ transform:none; }
+
+/* 계단식 지연효과(helper class) */
+.delay-1{transition-delay:.1s;}
+.delay-2{transition-delay:.2s;}
+.delay-3{transition-delay:.3s;}
+.delay-4{transition-delay:.4s;}
+
+/* ① content-block 안쪽 여백 : 아래쪽을 넉넉히 확보 */
+.content-block{
+  position: relative;          /* .source-note 위치 기준 */
+  padding: 1.0rem 1.5rem 1rem; /*      ↑     ↑     ↓—아래 +3rem */
+  border-radius: 10px;
+}
+
+/* ② 글머리 기호 들여쓰기 정상화 (이미 있으시면 생략해도 됨) */
+.content-block ul{
+  margin: .4rem 0 0 1.2rem;
+  list-style: disc outside;
+}
+
+/* ③ 출처 기본 스타일 – 모바일(세로) 기준은 그냥 흐름대로 */
+.source-note{
+  font-size: .65rem;
+    color:#777;
+    line-height:1.35;
+    display:block;
+    text-align:left;
+    margin-top:.8rem;        /* 모바일은 본문과 조금 띄우기 */
+  }
+
+  /* ④ 화면이 넓을 때(680px↑) → content-block 왼쪽·아래 고정 */
+  @media (min-width:680px){
+    .source-note{
+      position:absolute;
+      left:1.5rem;          /* ← 원하는 만큼 조절 */
+      bottom:-0.25rem;          /* ↓ 원하는 만큼 조절 */
+      margin:0;
+    }
+  }
+
+  /* 1) 섹션을 기준으로 절대 배치할 수 있게 */
+  #story {
+    position: relative;
+    overflow: hidden; /* 레터링이 살짝 밖으로 나가도 잘려 보이도록 */
+  }
+
+  /* 2) 배경 레터링 스타일 */
+  .story-slogan {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) skew(-8deg) rotate(-3deg);
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 900;
+    font-style: italic;
+    line-height: .8;
+    text-transform: uppercase;
+
+    /* 색상 & 투명도 */
+    color: #FFD481;
+    opacity: 0.15;
+
+    /* 절대위치 텍스트는 클릭 방해하지 않게 */
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+    z-index: 0;
+  }
+
+  .story-slogan span {
+    display: block;
+    font-size: 20vw;      /* 필요에 따라 조절 */
+    letter-spacing: -0.03em;
+  }
+
+  @media (max-width: 720px) {
+    .story-slogan span {
+      font-size: 40vw;
+    }
+  }
+
+  /* 컨텐츠(.scroll-reveal 등)는 레터링 위로 올라오도록 z-index */
+  .story-interactive > .scroll-reveal,
+  .story-interactive .story-grid {
+    position: relative;
+    z-index: 1;
+  }
+
+#about {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── 언덕 일러스트 래퍼 ── */
+.illustration {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 300px;      /* 필요시 조절 */
+  pointer-events: none;
+  /* z-index를 제거하거나 0으로 설정하면 섹션 배경 위로 잘 보입니다 */
+  z-index: 0;
+}
+
+/* ── 콘텐츠 래퍼 ── */
+.about-content {
+  position: relative;
+  z-index: 1;         /* 언덕 위에 올라오도록 */
+}
+
+/* ── 언덕 공통 ── */
+.hill {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 40% 40%;
+  filter: drop-shadow(0 -5px 5px rgba(0,0,0,0.05));
+}
+
+.hill-back {
+  width: 140%; height: 220px;
+  background: linear-gradient(180deg, #d4f1c5 0%, #99d68e 100%);
+  bottom: 40px;
+}
+
+.hill-mid {
+  width: 130%; height: 180px;
+  background: linear-gradient(180deg, #b2e3a1 0%, #76c060 100%);
+  bottom: 20px;
+}
+
+.hill-front {
+  width: 120%; height: 140px;
+  background: linear-gradient(180deg, #8dc47d 0%, #5a9e4a 100%);
+}
+
+/* ── 반응형 예시 ── */
+@media (max-width: 720px) {
+  .illustration { height: 200px; }
+  .hill-back { height: 150px; bottom: 30px; }
+  .hill-mid  { height: 120px; bottom: 15px; }
+  .hill-front{ height:  90px; }
+}
+
+#recipes {
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-icons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.recipe-icons .recipe-icon {
+  position: absolute;
+  width: 140px;
+  opacity: 0.95;
+  animation:
+    floatUpDown 6s ease-in-out infinite alternate,
+    swaySide   4s ease-in-out infinite alternate;
+}
+
+/* 개별 아이콘 위치 & 지연 */
+.recipe-icons .icon-1 { top: 15%; left: 21%; animation-delay: 0s; }
+.recipe-icons .icon-2 { top: 75%; left: 20%; animation-delay: 1s; }
+.recipe-icons .icon-3 { top: 60%; left: 73%; animation-delay: 2s; }
+.recipe-icons .icon-4 { top: 45%; left: 10%; animation-delay: 3s; }
+.recipe-icons .icon-5 { top: 25%; left: 78%; animation-delay: 4s; }
+
+/* 위아래 떠오르기 */
+@keyframes floatUpDown {
+  from { transform: translateY(0)    rotate(0deg); }
+  to   { transform: translateY(-20px) rotate(2deg); }
+}
+
+/* ─ bean 모양 Q&A 버튼 ────────────────────────── */
+.bean-btn {
+  background: var(--bean-red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  outline: none;
+
+  /* 팥 실루엣 */
+  clip-path: ellipse(50% 60% at 50% 50%);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: background .3s, transform .3s;
+}
+.bean-btn:hover {
+  background: #5a1e1e;
+  transform: scale(1.05);
+}
+
+/* ─ 답변 펼침 영역 ───────────────────────────── */
+.answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease, padding .3s ease;
+  padding: 0 1rem;
+  background: #fdf4ef;
+  border-left: 4px solid var(--bean-red);
+  border-right: 2px solid var(--bean-red);
+  border-bottom: 2px solid var(--bean-red);
+  border-radius: 0 0 8px 8px;
+  margin-bottom: 1.5rem;
+}
+.accordion-item.active .answer {
+  max-height: 500px;   /* 충분히 크게 잡아두세요 */
+  padding: .8rem 1rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   실험1 (삶기 색 변화) — 레이아웃 조정
+─────────────────────────────────────────────────────────────── */
+.exp1-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;         /* 이미지 ↔ 슬라이더 ↔ 시간 ↔ 설명 여백 */
+  margin: 2rem 0;
+}
+
+/* 설명문 (물 투명 등) */
+#boil-desc {
+  font-size: 0.95rem;
+  color: #555;
+  font-style: italic;
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+/* 시간 텍스트 (0분) */
+#boil-minutes {
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   슬라이더 (input[type=range]) 시각 커스터마이즈
+─────────────────────────────────────────────────────────────── */
+#boil-range {
+  -webkit-appearance: none;
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  transition: background .3s;
+}
+#boil-range:hover {
+  background: #ccc;
+}
+/* 트랙 */
+#boil-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+}
+#boil-range::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+}
+/* 썸 */
+#boil-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bean-red);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform .2s;
+}
+#boil-range::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+#boil-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--bean-red);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   bean-shape Q&A 아코디언 spacing 강화
+─────────────────────────────────────────────────────────────── */
+.exp1-accordion {
+  width: 100%;           /* 부모(.exp2-accordion) 전체 너비 사용 */
+  max-width: 320px;      /* 최대 320px로 제한 (필요시 조절) */
+  margin: 0 auto;    /* 중앙 정렬 */
+}
+.exp1-accordion .accordion-item {
+  margin-bottom: 2.5rem;  /* 질문 사이 충분한 간격 */
+}
+/* 마지막 항목 밑 여백 */
+.exp1-accordion .accordion-item:last-child {
+  margin-bottom: 1rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   bean-shape 버튼 (질문) — 너비·위치·스케일링
+─────────────────────────────────────────────────────────────── */
+.bean-btn {
+  display: block;
+  width: 220px;
+  margin: 0 auto;        /* 중앙 정렬 */
+  padding: 1rem 0;
+  background: var(--bean-red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  outline: none;
+
+  /* 완전한 bean 실루엣 */
+  clip-path: ellipse(50% 55% at 50% 50%);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transition: background .3s, transform .3s;
+}
+.bean-btn:hover {
+  background: #5a1e1e;
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   답변 영역 slide down/up 애니메이션
+─────────────────────────────────────────────────────────────── */
+.answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, padding .35s ease;
+  padding: 0 1rem;
+  background: #fdf4ef;
+  border-left: 4px solid var(--bean-red);
+  border-right: 2px solid var(--bean-red);
+  border-bottom: 2px solid var(--bean-red);
+  border-radius: 0 0 8px 8px;
+  margin-top: 0.5rem;
+}
+.accordion-item.active .answer {
+  max-height: 400px;    /* 충분히 크게 */
+  padding: .8rem 1rem;
+}
+
+/* 발아 실험 Q&A 영역 */
+.exp2-accordion {
+  margin: 2rem 0 3rem;
+}
+.exp2-accordion .accordion-item {
+  margin-bottom: 1.5rem;
+}
+/* 질문 버튼 (bean shape) */
+.exp2-accordion .question.bean-btn {
+  width: 100%;           /* 부모(.exp2-accordion) 전체 너비 사용 */
+  max-width: 320px;      /* 최대 320px로 제한 (필요시 조절) */
+  margin: 0 auto;
+  display: inline-block;
+  background: var(--bean-red);
+  color: #fff;
+  padding: .8rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .3s;
+}
+.exp2-accordion .question.bean-btn:hover {
+  background: #933636;
+}
+/* 답변 박스 */
+.exp2-accordion .answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding .4s ease;
+  background: #fff;
+  border-left: 4px solid var(--bean-red);
+  border-radius: 8px;
+  margin-top: .5rem;
+  padding: 0 1rem;
+  font-size: .95rem;
+  color: #333;
+}
+/* 열렸을 때 */
+.exp2-accordion .accordion-item.active .answer {
+  max-height: 300px; /* 충분히 크게 */
+  padding: 1rem;
+}
+
+/* ── exp2(발아 실험) 이미지 & 슬라이더 ── */
+/* 1) 이미지를 260×260px 정사각으로 고정 */
+.exp2-box img {
+  width: 260px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+
+/* 2) exp1·exp2 공통 슬라이더 스타일 */
+.exp1-box input[type=range],
+.exp2-box input[type=range] {
+  -webkit-appearance: none;
+  width: 260px;
+  height: 6px;
+  background: #ddd;
+  border-radius: 3px;
+  outline: none;
+  margin: 0;
+}
+.exp1-box input[type=range]::-webkit-slider-thumb,
+.exp2-box input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: var(--bean-red);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.exp1-box input[type=range]::-moz-range-thumb,
+.exp2-box input[type=range]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  background: var(--bean-red);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+
+/* ────────────────────────────────────────────────────
+   EXP3: 그래프 + 표 한 줄 배치
+───────────────────────────────────────────────────── */
+.exp3-flex {
+  display: flex;
+  flex-wrap: wrap;         /* 좁아지면 세로로 쌓임 */
+  justify-content: center;
+  gap: 2rem;               /* 차트 ↔ 표 사이 간격 */
+  margin-top: 1.5rem;      /* 제목 ↔ 차트+표 사이 여백 */
+}
+
+/* 차트는 최대 높이 240px, 너비는 flex 비율에 따라 */
+.exp3-flex > canvas {
+  flex: 1 1 0;
+  max-width: 45%;          
+  width: 100%;
+  max-height: 240px;       /* 세로 높이 고정 */
+  height: auto;            /* 비율 유지 */
+}
+
+/* 표는 최소 300px, 데스크탑에서 45%씩 차지 */
+.exp3-flex > .nutri-table {
+  flex: 1 1 300px;         
+  max-width: 45%;          
+  margin: 0;               
+}
+
+/* 모바일(720px 이하)에서는 세로 스택 */
+@media (max-width: 720px) {
+  .exp3-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+  .exp3-flex > canvas,
+  .exp3-flex > .nutri-table {
+    max-width: 100%;
+  }
+}
+
+/* ────────────────────────────────────────────────────
+   EXP3: Q&A(card) 영역 위치 고정
+───────────────────────────────────────────────────── */
+.exp3-accordion {
+  width: 100%;           /* 부모(.exp2-accordion) 전체 너비 사용 */
+  max-width: 320px;      /* 최대 320px로 제한 (필요시 조절) */
+  margin: 0 auto;     /* 위쪽 여백 + 중앙 정렬 */
+}
+
+/* exp3 비교 실험 Q&A 답변 영역 왼쪽 정렬 */
+.exp3-accordion .accordion-item .answer {
+  text-align: left;        /* 전체 텍스트를 왼쪽 정렬 */
+  line-height: 1.6;        /* 가독성 위해 줄간격 조금 늘리기 */
+  padding: 1rem 1.2rem;     /* 위아래·좌우 여백을 고르게 */
+}
+
+/* bullet 들여쓰기 조정 */
+.exp3-accordion .accordion-item .answer ul {
+  margin: 0.5rem 0 0 1.2rem;  /* 리스트 위 아래 마진, 왼쪽 패딩 */
+  list-style-position: outside;
+}
+
+/* 헤딩과 본문이 좀 더 붙어 보이도록 */
+.exp3-accordion .accordion-item .answer h4,
+.exp3-accordion .accordion-item .answer strong {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* 전체 카드의 내부 여백도 조금 늘려서 여유를 주면 좋습니다 */
+.exp3-accordion .accordion-item {
+  margin-bottom: 1.5rem;
+}
+
+/* ── exp3 Q&A 기본 숨김 ── */
+.exp3-accordion .answer {
+  display: none;        /* 아예 안보이게 */
+  padding: 0;           /* 숨길 때 패딩도 없애기 */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease, padding .4s ease;
+}
+
+/* ── 클릭된 항목만 열기 ── */
+.exp3-accordion .accordion-item.active .answer {
+  display: block;       /* 보이게 */
+  padding: 1rem;        /* 원하는 여백 */
+  max-height: 300px;    /* 최대 높이 지정 */
+  overflow-y: auto;     /* 내용이 길면 스크롤 */
+  border-left: 4px solid var(--bean-red);
+  border-right: 2px solid var(--bean-red);
+  border-bottom: 2px solid var(--bean-red);
+  background: #fff8f5;
+  border-radius: 0 0 8px 8px;
+}
+
+/* ── 스크롤바 스타일 (선택) ── */
+.exp3-accordion .accordion-item.active .answer::-webkit-scrollbar {
+  width: 6px;
+}
+.exp3-accordion .accordion-item.active .answer::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+.exp3-accordion .accordion-item.active .answer::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ── LAB 섹션을 기준 컨테이너로 ── */
+#lab {
+  position: relative;
+  overflow: hidden;
+}
+
+#lab .bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;          /* ← 여기 % 빼먹지 마세요! */
+  transform: none;
+  width: 100vw;       /* 뷰포트 전체 너비 */
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#lab .bubbles .bubble {
+  position: absolute;
+  bottom: 0;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  width: var(--size,20px);
+  height: var(--size,20px);
+  animation: bubble-float var(--rise,6s) linear forwards;
+}
+
+.bubble {
+  width: var(--size);
+  height: var(--size);
+  animation: bubble-float var(--rise) linear forwards;
+  /* inline style 의 left: xx%; 가 그대로 적용됩니다 */
+}
+
+@keyframes bubble-float {
+  0%   { transform: translateX(0) translateY(0) scale(1); opacity:1; }
+  100%{ transform: translateX(var(--drift)) translateY(-100vh) scale(1.2); opacity:0; }
+}
+
+footer {
+  background: var(--cream);
+  color: var(--text);
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+  /* 위아래 패딩을 1rem → 0.75rem 로 축소 */
+  padding: 0.7rem 0;
+  border-top: 1px solid #e0dcd9;
+  box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+  margin-top: 0;        /* 푸터 위 불필요한 마진 제거 */
+  width: 100%;
+}
+
+/* ───────── 본문 바텀 여백 ───────── */
+/* padding-bottom: 4rem; ← 너무 크므로 지우거나 */
+body {
+  padding-bottom: 1rem; /* 푸터 높이만큼만 살짝 남김 */
+}
