@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>팥랩 | Red Bean Lab</title>
+
+  <!-- Pretendard 폰트 & 외부 CSS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@600;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ▶︎ 이 페이지 안에서 추가된 스타일 -->
+  <style>
+    /* --- About 섹션 서브탭 --- */
+    .subtab-container{margin-top:20px;}
+    .subtab-list{display:flex;gap:20px;list-style:none;padding:0;margin:0 0 20px;border-bottom:2px solid #ccc;}
+    .subtab-item{cursor:pointer;padding:10px;font-weight:bold;color:#333;position:relative;}
+    .subtab-item.active{color:#7a4a24;}
+    .subtab-item::after{content:"";position:absolute;left:0;bottom:-2px;width:100%;height:2px;background:transparent;transition:background-color .3s;}
+    .subtab-item.active::after{background:#7a4a24;}
+    .subtab-content{display:none;line-height:1.6;}
+    .subtab-content.active{display:block;padding:10px 0;}
+    .subtab-content ul{padding-left:1.2em;}
+
+    /* --- 팥 이야기 팝업 --- */
+    .story-popup{
+      position:fixed;inset:0;
+      display:none;align-items:center;justify-content:center;
+      background:rgba(0,0,0,.65);z-index:1000;
+    }
+    .story-popup[aria-hidden="false"]{display:flex;}
+
+    .story-article{
+      max-width:640px;width:90%;max-height:90vh;
+      padding:2rem;overflow-y:auto;
+      background:#fff;color:#333;border-radius:1rem;
+      box-shadow:0 10px 25px rgba(0,0,0,.25);
+    }
+    .close-btn{
+      position:absolute;top:1rem;right:1.5rem;
+      font-size:2rem;background:none;border:none;color:#fff;cursor:pointer;
+    }
+    .story-article figure{margin:1.5rem 0;}
+    .story-article figcaption{font-size:.85rem;color:#666;}
+    .subtitle{color:#868686;margin-top:-.3rem;}
+    .tip{background:#f8f8f8;border-left:4px solid #a41d1d;padding:.75rem 1rem;margin-top:1rem;}
+  </style>
+
+</head>
+
+<body>
+
+  <!-- ───────── 헤더 ───────── -->
+  <header id="main-header" class="transparent">
+    <nav>
+      <a href="#about">About</a>
+      <a href="#recipes">Recipes</a>
+      <a href="#story">Story</a>
+      <a href="#lab">Lab</a>
+    </nav>
+
+    <span class="logo">팥랩</span>
+  </header>
+
+  <main id="home" class="hero">
+    <h1 class="slogan">
+      <span>RED</span>
+      <span>BEAN</span>
+      <span>LAB</span>
+    </h1>
+
+    <img src="image/icon/icon1.png"   class="hero-icon icon-flask"  alt="">
+    <img src="image/icon/icon2.png"  class="hero-icon icon-patjuk" alt="">
+    <img src="image/icon/icon3.png"   class="hero-icon icon-spoon"  alt="">
+    <img src="image/icon/icon4.png" class="hero-icon icon-bean"   alt="">
+  </main>
+  <!-- ② 스마일 Bean 아이콘은 잠시 우측-하단에 배치할 예정 -->
+  <svg class="bean-icon" viewBox="0 0 200 200" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">
+    <path d="M100 10c30 0 74 14 80 60s-22 100-80 120S10 154 20 90 70 10 100 10z"
+          fill="var(--bean-red)" />
+    <circle cx="75" cy="85" r="8" fill="white"/>
+    <circle cx="75" cy="85" r="4" fill="black"/>
+    <circle cx="125" cy="85" r="8" fill="white"/>
+    <circle cx="125" cy="85" r="4" fill="black"/>
+    <path d="M70 115 q30 25 60 0" stroke="white" stroke-width="6"
+          fill="none" stroke-linecap="round"/>
+  </svg>
+
+  <section id="about" class="section" data-bg="var(--white)" style="background: var(--white); position: relative; overflow: hidden;">
+    <div class="illustration">
+      <div class="hill hill-back"></div>
+      <div class="hill hill-mid"></div>
+      <div class="hill hill-front"></div>
+      </div>
+    </div>
+
+    <h2 class="scroll-reveal">팥 소개</h2>
+    <p class="scroll-reveal delay-1">팥은 동짓날 팥죽을 쒀 먹거나 떡, 빵의 앙금으로 사용하기도 하고 여름에는 팥빙수를 만드는 등 부기를 빼주고 혈압 상승 억제에 도움을 준다.</p>
+  
+    <div class="subtab-container scroll-reveal delay-2">
+      <ul class="subtab-list">
+        <li class="subtab-item active" data-tab="tab1">개요</li>
+        <li class="subtab-item" data-tab="tab2">품목소개</li>
+        <li class="subtab-item" data-tab="tab3">가격정보</li>
+        <li class="subtab-item" data-tab="tab4">소비정보</li>
+        <li class="subtab-item" data-tab="tab5">건강정보</li>
+      </ul>
+      <div class="subtab-content active" id="tab1">
+        <div class="content-title scroll-reveal"><span class="icon">🌱</span>원산지 및 재배역사</div>
+        <div class="content-block scroll-reveal">
+          <ul>
+            <li>동북아시아에서 오래전부터 재배되어온 작물로 알려져 있으며, 중국이 원산지인 것으로 알려짐</li>
+            <li>동북아시아를 통하여 하와이를 거쳐, 미국 대륙에 전파됨</li>
+            <li>우리나라에서는 회령군 오동유적에서 팥이 출토된 바가 있어서 오래전부터 팥을 재배한 것으로 추정됨</li>
+          </ul>
+        </div>
+        <div class="content-title scroll-reveal"><span class="icon">🌾</span>품종 및 특성</div>
+        <div class="content-block scroll-reveal">
+          <ul>
+            <li>보통팥, 덩굴팥, 붉은팥, 푸른팥, 얼룩팥 등 다양한 생태 및 색 특성</li>
+            <li>떡, 과자, 빵 재료로 사용됨</li>
+            <li>중원팥: 충북 중원지방에서 수집된 품종, 바이러스 저항성 중간</li>
+            <li>충주팥: 중·만생종, 늦게 파종시 수확량 감소</li>
+            <li>중부팥: 조생종, 내병성 강한 품질 좋은 적색 품종</li>
+          </ul>
+        </div>
+        <div class="content-title scroll-reveal"><span class="icon">🧪</span>생리 및 생태</div>
+        <div class="content-block scroll-reveal">
+          <ul>
+            <li>발아 최적온도: 32~34℃, 발아력 3~4년 유지</li>
+            <li>자가수정, 결실일수 약 50~59일</li>
+            <li>배수구 정비로 습해 예방, 꼬투리 70~80% 익었을 때 수확</li>
+          </ul>
+        </div>
+      </div>
+      <div class="subtab-content" id="tab2">
+        <div class="content-title scroll-reveal"><span class="icon">🫘</span>팥이란?</div>
+        <div class="content-block scroll-reveal">
+          <ul>
+            <li>팥은 콩과 동부속에 속하는 한해살이풀로 소두(小豆) 또는 적두(赤豆)라고도 불리며, 따뜻하고 습한 기후를 좋아하고, 종류에는 줄기가 곧게 서는 보통팥, 덩굴로 자라는 덩굴팥이 있으며, 열매 색깔은 붉은색, 검정색, 푸른색, 녹색, 갈색 등으로 다양하다.</li>
+            <li>동북아시아가 원산지로 오랜 재배 역사를 가지고 있으며 중국, 한국, 일본에서 전 세계 생산량의 대부분을 생산하고 있고 미국, 호주 등지에서도 일부 재배되고 있다. 팥은 예로부터 많은 요리에 첨가물로 애용됐다.</li>
+            <li>팥고물과 팥소는 떡, 전통 과자, 빵 등에 사용되고 있고 일본에서는 밤, 칡과 함께 단맛을 내는 3대 식재료로 쓰이고 있다. 일반적으로 팥에 설탕을 첨가하여 팥빙수나 팥빵 등의 재료로 사용하기 때문에 팥을 매우 단 것으로 인식하기도 하는데, 실제로는 그리 단맛이 강하지 않다.</li>
+            <li>우리나라에서는 겨울 동짓날 팥죽을 쒀 먹거나, 떡, 빵의 앙금으로 사용하기도 하고 여름에는 팥빙수를 만들어 사계절 내내 팥을 애용하고 있다. 우리나라 팥의 주요 품종으로는 껍질 색이 붉은 ‘충주팥’, 밝은 붉은색의 ‘새길팥’, 짙고 어두운 붉은색인 ‘아라리’, 검은색인 ‘검구슬’, 연한 녹색의 ‘연두채’, 껍질이 얇고 색상이 흰 ‘거피팥’ 등이 있다.</li>
+          </ul>
+        </div>
+
+        <div class="content-title scroll-reveal"><span class="icon">🔍</span>국내산 vs 중국산 팥 비교</div>
+        <div class="content-block scroll-reveal">
+          <h4>국내산 팥</h4>
+          <ul>
+            <li>연한 붉은색으로 윤기가 적다.</li>
+            <li>낟알의 크기가 고르지 않다.</li>
+            <li>낟알의 모양이 약간 각이 있다.</li>
+          </ul>
+
+
+          <h4 style="margin-top: 1rem;">중국산 팥</h4>
+          <ul>
+            <li>검붉은 색으로 윤기가 많다.</li>
+            <li>낟알의 크기가 고르다.</li>
+            <li>낟알의 모양이 둥글다.</li>
+          </ul>
+          <p style="position:absoulute; left: 1.2rem; bottom: 1rem; font-size: 0.9rem; color: #555; margin:0;">
+            출처: 농식품백과사전, 농식품정보누리, 농촌진흥청
+          </p>
+        </div>
+      </div>
+
+      <div class="subtab-content scroll-reveal" id="tab3">
+      <div class="content-title scroll-reveal"><span class="icon">📊</span>가격 정보</div>
+      <div class="content-block scroll-reveal">
+        <div class="table-container">
+          <table class="price-table">
+            <thead>
+              <tr><th>구분</th><th>2025</th><th>2024</th><th>2023</th><th>2022</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1월</td><td>770,100</td><td>459,736</td><td>365,130</td><td>356,720</td></tr>
+              <tr><td>2월</td><td>770,180</td><td>463,074</td><td>367,560</td><td>357,700</td></tr>
+              <tr><td>3월</td><td>781,030</td><td>475,050</td><td>383,118</td><td>357,714</td></tr>
+              <tr><td>4월</td><td>787,073</td><td>489,657</td><td>392,850</td><td>357,571</td></tr>
+              <tr><td>5월</td><td>783,442</td><td>497,200</td><td>398,830</td><td>361,600</td></tr>
+              <tr><td>6월</td><td>-</td><td>499,200</td><td>412,952</td><td>363,380</td></tr>
+              <tr><td>7월</td><td>-</td><td>503,035</td><td>419,838</td><td>370,600</td></tr>
+              <tr><td>8월</td><td>-</td><td>507,733</td><td>425,445</td><td>372,791</td></tr>
+              <tr><td>9월</td><td>-</td><td>511,800</td><td>436,168</td><td>371,800</td></tr>
+              <tr><td>10월</td><td>-</td><td>505,820</td><td>438,863</td><td>372,358</td></tr>
+              <tr><td>11월</td><td>-</td><td>616,810</td><td>444,645</td><td>364,873</td></tr>
+              <tr><td>12월</td><td>-</td><td>780,620</td><td>456,011</td><td>363,629</td></tr>
+              <tr><td><strong>연평균</strong></td><td><strong>778,657</strong></td><td><strong>525,621</strong></td><td><strong>411,577</strong></td><td><strong>364,282</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-title scroll-reveal"><span class="icon">📢</span>이용안내</div>
+      <div class="content-block scroll-reveal">
+        <ul class="info-list">
+          <li>도매시장 중도매인 상회에서 소상인 및 실수요자에게 판매하는 가격입니다.</li>
+          <li>농산물 특성상 크기와 색상 등이 다양하고 저장기간, 기후변화에 따라 동일 등급에도 다소 차이가 있을 수 있습니다.</li>
+          <li>평년은 5년간(금년 제외) 해당일의 최고값과 최저값을 제외한 3년 평균값입니다.</li>
+          <li>조사단위가 중량이 아닌 품목(포기, 개, 마리 등)은 kg 단위 환산이 제공되지 않습니다.</li>
+          <li>개별 판매처 및 산지, 브랜드, 규격 등에 따라 가격이 다를 수 있으므로 실거래에 있어 참고용으로만 활용해주세요.</li>
+          <li>2018.1.8일부터 깐마늘(국산)은 대서종과 남도종으로 구분 조사·제공됩니다. (이전은 혼합가격)</li>
+          <li>2020.6.23일부터 난지형 피마늘도 대서종/남도종으로 구분 조사·제공됩니다.</li>
+        </ul>
+      </div>
+    </div>
+
+
+      <div class="subtab-content" id="tab4">
+      <div class="content-title scroll-reveal"><span class="icon">🛒</span>팥 고르는 Tip</div>
+      <div class="content-block scroll-reveal">
+        <ul>
+          <li>붉은색이 선명하고 껍질이 얇으면서 손상된 낱알이 없는 팥을 고른다. 국산 팥은 낱알의 크기가 고르지 않고, 흰색 띠가 뚜렷하다. 반면에 수입 팥은 낱알의 크기가 작고 고르며 흰색 띠가 짧고 뚜렷하지 않으니 꼼꼼히 비교해보고 사는 것이 좋다.</li>
+          <li>수분 함량이 14% 이하로 이종피색립 피해립이 없고 이물질이 없고 품종 고유의 낱알 모양을 갖고 보통의 숙도를 가진 건전한 낱알인 것으로 사는 것이 좋다.</li>
+        </ul>
+        </div>
+
+      <div class="content-title scroll-reveal"><span class="icon">🧼</span>손질 방법</div>
+      <div class="content-block scroll-reveal">
+        <ul>
+          <li>팥을 깨끗하게 씻은 뒤 물에 불려서 용도에 맞게 사용한다. 팥의 껍질은 단단해서 12시간 이상 불린 후 삶아야 부드러운데, 조금 으깨서 물에 불리면 불리는 시간을 단축할 수 있다. 팥의 사포닌은 특유의 씁쓸한 맛이 있어서 팥을 처음 삶은 물은 따라 버려 사포닌 성분을 일부 제거한 뒤 사용하는 것이 좋다. 특히 위장이 약한 경우에는 이렇게 먹어야 배탈이 나지 않으니 유의한다.</li>
+          <li>손질한 팥은 다양한 곡류와 함께 이용하는 것이 좋은데 팥밥, 팥 칼국수, 팥빵 등은 탄수화물이 풍부한 곡류와 곡류의 당질 대사에 꼭 필요한 비타민 B1이 풍부한 팥이 어우러지고 아미노산을 보충해주므로 영양학적으로 바람직하다. 또한 팥죽 속의 새알심, 팥이 든 찹쌀떡과 같이 팥을 찹쌀과 함께 이용할 경우 찬 성질의 팥은 기운을 아래로 끌어내리고 소변을 밖으로 내 보내주며 따뜻한 성질의 찹쌀이 위와 장을 따뜻하게 만들고 소변이 지나치게 많이 나가는 것을 막아주어 상호보완의 역할을 할 수 있다.</li>
+        </ul>
+      </div>
+
+      <div class="content-title scroll-reveal"><span class="icon">📦</span>보관 방법</div>
+      <div class="content-block scroll-reveal">
+        <ul>
+          <li>팥에는 영양이 풍부해 벌레가 쉽게 생길 수 있기 때문에 수분이 거의 없는 상태로 보관하는 것이 중요하다. 따라서 보관하기 전에 신문지 위에 팥을 깔아두고 햇빛이 잘 드는 곳에서 바짝 말려두면 좋다. 이렇게 말려준 팥은 습기가 없고 통풍이 잘 되는 서늘한 곳에 보관해주는데, 여름철에는 밀폐 용기에 담아 냉장고에 보관하는 것이 좋다. 보관은 약 3개월 정도로 18~22℃의 온도에서 보관하는 것이 좋다.</li>
+          <li>팥을 불리는 시간이 오래 걸려 사용하기가 번거로울 때는, 한꺼번에 팥을 불린 다음 삶아두어 필요한 양만큼 포장해서 냉동실에 보관하면 필요할 때마다 꺼내어 편리하게 사용할 수 있다.</li>
+        </ul>
+      </div>
+    </div>
+
+      <div class="subtab-content" id="tab5">
+      <div class="content-title scroll-reveal"><span class="icon">💡</span>팥의 효능</div>
+      <div class="content-block scroll-reveal">
+        <ul>
+          <li><strong>신장보호 :</strong> 청열·이뇨작용을 도와 열독을 소변으로 배출시켜 신장 기능을 보호하며, 특히 소양인 체질에 추천됨.</li>
+          <li><strong>변비치료 :</strong> 팥 속 안토시아닌과 사포닌이 장을 자극하여 소화와 이뇨를 촉진. 소금물에 끓인 팥과 물을 수시로 섭취하면 변비 개선에 도움.</li>
+          <li><strong>다이어트 효과 :</strong> 팥은 포만감을 주며 사포닌이 지방을 분해하여 에너지로 전환, 체중 감량에 효과적.</li>
+          <li><strong>암 예방 :</strong> 폴리페놀 및 사포닌 성분이 암세포 생성 및 증식을 억제하여 항암 효과를 기대할 수 있음.</li>
+          <li><strong>부종치료 :</strong> 신진대사 촉진과 이뇨 작용으로 혈관 내 노폐물과 독소 배출을 도와 부종 완화.</li>
+          <li><strong>피로회복 :</strong> 풍부한 비타민 B1이 당질 대사를 도와 피로 해소, 기억력 증진에 기여.</li>
+        </ul>
+      </div>
+
+      <div class="content-title scroll-reveal"><span class="icon">📊</span>이런 영양이 있어요 (100g 기준)</div>
+      <div class="content-block scroll-reveal">
+        <img src="image/photo1.jpg" alt="팥 100g 영양 성분표" style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 0.8rem;" />
+        <p style="position:absoulute; left: 1.2rem; bottom: 1rem; font-size: 0.9rem; color: #555; margin:0;">출처: 농식품정보누리, 식품의약품안전처</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="recipes" class="recipe-gallery" data-bg="var(--white)" style="position: relative; overflow: hidden;">
+    <h2 class="scroll-reveal">레시피 모음</h2>
+
+    <p class="scroll-reveal delay-2">팥빙수, 단팥죽, 찹쌀떡, 도라야끼 등 다양한 팥 요리를 소개합니다.</p>
+
+    <div class="recipe-icons">
+      <img src="image/recipe/recipe1.png" alt="" class="recipe-icon icon-1 scroll-reveal scroll-up delay-1">
+      <img src="image/recipe/recipe2.png" alt="" class="recipe-icon icon-2 scroll-reveal scroll-up delay-2">
+      <img src="image/recipe/recipe3.png" alt="" class="recipe-icon icon-3 scroll-reveal scroll-up delay-3">
+      <img src="image/recipe/recipe4.png" alt="" class="recipe-icon icon-4 scroll-reveal scroll-up delay-4">
+      <img src="image/recipe/recipe5.png" alt="" class="recipe-icon icon-5 scroll-reveal scroll-up delay-5">
+    </div>
+
+    <div class="recipe-grid scroll-reveal delay-3">
+      <a href="recipe1.html" class="recipe-card"><img src="image/food1.jpg" alt="단팥죽"></a>
+      <a href="recipe2.html" class="recipe-card"><img src="image/food2.jpg" alt="팥빙수"></a>
+      <a href="recipe3.html" class="recipe-card"><img src="image/food3.jpg" alt="찹쌀떡"></a>
+      <a href="recipe4.html" class="recipe-card"><img src="image/food4.jpg" alt="도라야끼"></a>
+      <a href="recipe5.html" class="recipe-card"><img src="image/food5.jpg" alt="팥 라떼"></a>
+      <a href="recipe6.html" class="recipe-card"><img src="image/food6.jpg" alt="팥 양갱"></a>
+      <a href="recipe7.html" class="recipe-card"><img src="image/food7.jpg" alt="팥 크림샌드"></a>
+      <a href="recipe8.html" class="recipe-card"><img src="image/food8.jpg" alt="팥쨈"></a>
+      <a href="recipe9.html" class="recipe-card"><img src="image/food9.jpg" alt="시루떡"></a>
+    </div>
+  </section>
+
+
+  <section id="story" class="section story-interactive">
+    <h1 class="story-slogan">
+      <span>RED BEAN</span>
+      <span>STORY</span>
+    </h1>
+
+    <h2 class="scroll-reveal">팥 이야기</h2>
+    <p class="scroll-reveal delay-2">팥과 관련된 문화적, 역사적 사례를 클릭하여 더 자세히 알아보세요.</p>
+
+    <div class="story-grid scroll-reveal delay-3">
+      <div class="story-card" data-id="card1">
+        <img src="image/card1.jpg" alt="팥 설화"><h3>팥 설화</h3>
+      </div>
+      <div class="story-card" data-id="card2">
+        <img src="image/card2.jpg" alt="전통 음식"><h3>전통 음식</h3>
+      </div>
+      <div class="story-card" data-id="card3">
+        <img src="image/card3.jpg" alt="세계 속 팥"><h3>세계 속 팥</h3>
+      </div>
+      <div class="story-card" data-id="card4">
+        <img src="image/card4.jpg" alt="팥의 상징성"><h3>팥의 상징성</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── 팝업 & 템플릿 ───────── -->
+  <div id="story-popup" class="story-popup" aria-hidden="true">
+    <button class="close-btn" aria-label="닫기">&times;</button>
+    <article id="story-content" class="story-article"></article>
+  </div>
+
+  <!-- 카드 1: 팥 설화 -->
+  <!-- 카드1: 팥 설화 – 전체 내용 완성본 -->
+<template id="tpl-card1">
+  <header>
+    <h2>팥 설화 : 붉은 팥이 지켜낸 겨울</h2>
+    <p class="subtitle">팥죽에서 귀신을 물리치는 붉은빛까지</p>
+  </header>
+
+  <!-- 1. 붉은색은 잡귀를 쫓는다 -->
+  <section>
+    <h3>1. “붉은색은 잡귀를 쫓는다”</h3>
+    <p>
+      옛사람들은 <strong>붉은빛을 ‘양(陽)의 기운’</strong>으로 보아 음(陰)·재앙·잡귀를
+      물리친다고 믿었습니다. 팥은 껍질부터 알맹이까지 선홍색이라
+      그 자체가 부적이었죠. 아이가 열병을 앓으면 붉은 실에
+      팥알을 꿰어 목에 걸어 주거나, 재앙이 드는 집터엔
+      팥물을 뿌려 액운을 정화했습니다. 제사상에도 팥 시루떡을
+      올려 잡귀가 제삿밥을 훔쳐 가지 못하도록 막았다고 전해집니다.
+    </p>
+  </section>
+
+  <!-- 2. 동지 팥죽 -->
+  <section>
+    <h3>2. 동지(冬至) 팥죽</h3>
+    <p>
+      1년 중 밤이 가장 길다는 동짓날, 가족들은 팥죽을 쑤어
+      한 그릇씩 나눠 먹고 나머지는 집 안팎에 뿌렸습니다.
+      『동국세시기』(1849)에는 “동지에 팥죽을 먹으면
+      온갖 사악한 기운이 집에 들지 못한다”는 기록이 실려 있죠.
+      뜨거운 팥죽으로 긴 겨울을 견딘다는 뜻과,
+      팥의 붉은빛으로 장병(瘴病)과 악귀를 막는 두 의미가
+      함께 담긴 대표적인 세시풍속입니다.
+    </p>
+  </section>
+
+  <!-- 3. 팥 귀신 설화 -->
+  <section>
+    <h3>3. ‘팥 귀신’ 설화</h3>
+    <p>
+      조선 중기에 전해 내려오는 민담에 따르면, 고을 수령이
+      억울하게 옥살이를 하게 된 아들을 대신해
+      노모가 매일 팥죽을 끓여 성문 앞에 바쳤더니
+      “팥 귀신이 배불러 노한다”는 꿈을 꾸고
+      며칠 뒤 아들이 석방됐다고 합니다.
+      이 이야기 이후 팥은 귀신도 두려워하는 음식이라는 인식이
+      더욱 굳어졌고, 동지에 팥죽을 나눠 먹는 풍습이
+      민가 곳곳으로 퍼졌다는 해석이 있습니다.
+    </p>
+  </section>
+
+  <!-- 4. 오늘날의 의미 -->
+  <section>
+    <h3>4. 오늘날의 의미</h3>
+    <ul>
+      <li><strong>계절 음식</strong> – 동지 팥죽, 여름 팥빙수</li>
+      <li><strong>길운의 색</strong> – 돌·혼례 떡에 붉은 팥고물로 액막이</li>
+      <li><strong>건강 식품</strong> – 안토시아닌·사포닌이 풍부한 항산화 곡물</li>
+    </ul>
+    <p class="tip">
+      팥의 ‘붉은빛 설화’는 일본(단고[団子]·안코[あんこ])와
+      중국(훙더우탕[红豆汤])에도 유사하게 전해져
+      동아시아 겨울 풍습의 공통 유산이 되었습니다.
+      현대에는 팥의 기능성 성분이 과학적으로 조명되며
+      ‘전통+웰빙’ 식재료로 재해석되고 있습니다.
+    </p>
+  </section>
+
+  <footer class="story-footer">
+    <small>참고: 『동국세시기』, 문화재청 구전민담 아카이브, 농촌진흥청 세시풍속 자료집</small>
+  </footer>
+</template>
+
+  <!-- 카드 2~4 : 간단 틀 -->
+  <!-- 카드2: 전통 음식 – 전체 내용 완성본 -->
+<template id="tpl-card2">
+  <header>
+    <h2>전통 음식 속 팥 : 떡·밥·간식으로 이어진 단짠 붉은 맛</h2>
+    <p class="subtitle">시루떡부터 단팥빵까지, 계절‧경사마다 빠지지 않는 팥 요리</p>
+  </header>
+
+  <!-- 1. 떡과 팥 -->
+  <section>
+    <h3>1. 떡과 팥</h3>
+    <p>
+      잔칫날엔 <strong>팥 시루떡</strong>을 쪄서 액운을 막고 복을 빈다 했습니다.
+      근래에도 돌잔치·혼례상에 시루떡이 기본으로 오르는 이유죠.
+      찹쌀떡·가래떡 겉에 묻힌 <em>팥고물</em>은 달지 않으면서도
+      은은한 단맛과 고소함을 더해 주며, 붉은색 덕분에 길상의 의미도
+      함께 담았습니다.
+    </p>
+  </section>
+
+  <!-- 2. 밥과 죽 -->
+  <section>
+    <h3>2. 밥과 죽</h3>
+    <p>
+      겨울 <strong>팥죽(동지·복쌀 팥죽)</strong> 외에도
+      정월대보름 <strong>오곡밥</strong>, 더위 타파를 기원하는
+      <strong>팥빙수</strong> 등 팥은 계절 음식을 대표합니다.
+      죽에는 새알심(찹쌀 반죽)을 넣어 식감과 포만감을 높였고,
+      밥에는 흰쌀·찰수수·콩과 섞어 영양 균형을 맞췄습니다.
+    </p>
+  </section>
+
+  <!-- 3. 간식과 과자 -->
+  <section>
+    <h3>3. 간식과 과자</h3>
+    <p>
+      일본에서 건너온 <strong>단팥빵·도라야키</strong>와
+      겨울 길거리 간식 <strong>붕어빵·호두과자</strong> 모두
+      기본 재료가 ‘팥 앙금’입니다.
+      기름에 바삭 튀긴 <strong>찹쌀도넛</strong>,
+      설탕을 넣어 졸인 <strong>팥양갱</strong>도
+      입안에서 살살 녹는 단맛 덕분에 세대를 넘어 사랑받고 있죠.
+    </p>
+  </section>
+
+  <!-- 4. 오늘날의 재해석 -->
+  <section>
+    <h3>4. 오늘날의 재해석</h3>
+    <ul>
+      <li><strong>모던 디저트</strong> – 팥라테, 팥 크림슈, 팥 마카롱</li>
+      <li><strong>베이킹</strong> – 버터·크림치즈와 팥소를 섞은 퓨전 단팥빵</li>
+      <li><strong>건강 간식</strong> – 저당 팥 스프레드, 팥 단백질바</li>
+    </ul>
+    <p class="tip">
+      팥은 가공 시 <em>비건·글루텐프리</em> 레시피에도 잘 어울려
+      ‘전통+헬시’ 시장에서 주목받고 있습니다.
+      카페 문화와 만난 <strong>팥 라테</strong>, 팥을 넣은 <strong>아이스크림</strong>
+      등 새 얼굴이 끊임없이 탄생 중입니다.
+    </p>
+  </section>
+
+  <footer class="story-footer">
+    <small>참고: 농촌진흥청 전통음식 DB, 『한국세시음식』, 한식진흥원 식문화 아카이브</small>
+  </footer>
+</template>
+
+  <!-- 카드3: 세계 속 팥 – 전체 내용 완성본 -->
+<template id="tpl-card3">
+  <header>
+    <h2>세계 속 팥 : 동아시아 단팥부터 중남미 ‘레드빈’까지</h2>
+    <p class="subtitle">문화·기후·조리법 따라 달라진 붉은 콩의 글로벌 여정</p>
+  </header>
+
+  <!-- 1. 동아시아 : 일본·중국·대만 -->
+  <section>
+    <h3>1. 동아시아 : Japan, China, Taiwan</h3>
+    <p>
+      일본은 <strong>앙코(anko)</strong> 문화의 본고장입니다.  
+      오시루코(단팥죽)·도라야키·만주·다이후쿠 등 셀 수 없는 디저트가 팥소로
+      채워져 있죠. 중국∙대만은 <em>홍더우탕(红豆汤)</em>, <em>훙더우빙(红豆冰)</em>처럼
+      팥을 달콤한 음료·빙수 형태로 즐깁니다. ‘팥은 입과 마음을 따뜻하게 한다’는
+      속설도 공통적입니다.
+    </p>
+  </section>
+
+  <!-- 2. 동남아 : 베트남·태국·필리핀 -->
+  <section>
+    <h3>2. 동남아 : Vietnam, Thailand, Philippines</h3>
+    <p>
+      베트남 길거리에서는 코코넛 밀크·젤리와 함께 끓인
+      <strong>chè đậu đỏ</strong>를 쉽게 만날 수 있습니다.
+      태국의 <em>타후엔킹(두부+팥 코코넛 시럽)</em>,
+      필리핀의 크러시드 아이스 디저트 <strong>할로할로</strong>에도
+      팥이 단맛과 식감을 책임지는 핵심 재료입니다.
+    </p>
+  </section>
+
+  <!-- 3. 미주 지역 : 미국 남부·중남미 -->
+  <section>
+    <h3>3. 미주 지역 : Americas</h3>
+    <p>
+      미국 남부·캐리비언의 <strong>Red Beans &amp; Rice</strong>는
+      스모키 소시지와 녹아든 팥으로 완성되는 푸근한 소울푸드입니다.
+      멕시코·엘살바도르 등 중남미 지역에서는
+      강낭콩(Frijoles Rojos)을 라드·토마토와 푹 끓여
+      또르띠야·아레파와 곁들여 먹습니다.  
+      단맛보다 ‘영양 곡물’ 이미지가 강한 점이 동아시아와 대비됩니다.
+    </p>
+  </section>
+
+  <!-- 4. 글로벌 퓨전 & 푸드트렌드 -->
+  <section>
+    <h3>4. 글로벌 퓨전 &amp; 푸드 트렌드</h3>
+    <ul>
+      <li><strong>디저트 크로스오버</strong> – 팥 마카롱, 팥 티라미수, 팥 브라우니</li>
+      <li><strong>식물성 단백질</strong> – 팥 단백 파우더·바, 비건 레드빈 버거 패티</li>
+      <li><strong>K-디저트 확산</strong> – 팥빙수가 ‘빙수(Bingsu)’ 이름으로 미국·유럽 카페 진출</li>
+    </ul>
+    <p class="tip">
+      ‘Super Red Bean’으로 재명명된 아즈키는
+      <em>저지방 · 고섬유질 · 항산화</em> 이미지를 앞세워
+      <strong>글로벌 슈퍼푸드</strong> 시장에서도 주목받고 있습니다.
+    </p>
+  </section>
+
+  <footer class="story-footer">
+    <small>참고: FAO 곡물소비 보고서, 일본 농림수산성 ‘앙코백서’, 베트남 길거리 간식 연구(2024)</small>
+  </footer>
+</template>
+
+  <!-- 카드4: 팥의 상징성 – 전체 내용 완성본 -->
+<template id="tpl-card4">
+  <header>
+    <h2>팥의 상징성 : 붉은빛이 품은 길운과 보호의 의미</h2>
+    <p class="subtitle">액막이·다산·장수… ‘작은 붉은 알’이 전해 온 전통·현대의 메시지</p>
+  </header>
+
+  <!-- 1. 액막이·부정(不淨) 타파 -->
+  <section>
+    <h3>1. 붉은색 = 액막</h3>
+    <p>
+      동아시아 민속에서 <strong>붉은색은 ‘양(陽)’</strong>을 의미해
+      병마·잡귀·부정을 몰아낸다고 여겨졌습니다.
+      팥은 껍질까지 진홍빛이어서 **‘먹는 부적’** 으로 불렸지요.
+      장례를 치른 뒤 집안에 팥죽을 흩뿌리거나, 이사 첫날
+      사방에 팥을 던져 액운을 차단하는 풍습이 지금도 남아 있습니다.
+    </p>
+  </section>
+
+  <!-- 2. 다산·풍요 -->
+  <section>
+    <h3>2. 다산과 풍요의 상징</h3>
+    <p>
+      작은 붉은 알갱이가 모여 한 그릇을 이루는 모습에서
+      <em>‘씨앗이 많아 자손이 번성한다’</em>는 의미가 생겼습니다.
+      **돌잔치·혼례** 상차림에 팥 시루떡을 올려
+      건강한 자녀와 풍요로운 살림을 기원한 데서 확인할 수 있습니다.
+    </p>
+  </section>
+
+  <!-- 3. 속담·문학 속 팥 -->
+  <section>
+    <h3>3. 속담과 문학 속 팥</h3>
+    <p>
+      • “팥으로 메주를 쑨다 해도 믿는다” – <em>거짓말도 곧이듣는 어리석음</em>  
+      • “팥 심은 데 팥 나고 콩 심은 데 콩 난다” – <em>원인·결과의 필연성</em>  
+      • 『홍루몽』·『서유기』 등 동아시아 고전에서도 팥죽이
+      귀신을 물리치는 상징 음식으로 반복 등장합니다.
+    </p>
+  </section>
+
+  <!-- 4. 현대 디자인·브랜딩에서의 팥 -->
+  <section>
+    <h3>4. 현대 디자인 &amp; 브랜딩</h3>
+    <ul>
+      <li><strong>컬러 코드</strong> – #7b2e2e (딥 빈 레드) 는 ‘전통·웰빙·따뜻함’ 키워드로 활용</li>
+      <li><strong>행운 모티프</strong> – 팥 모양 캐릭터·이모티콘이 행운 부적 역할</li>
+      <li><strong>친환경 메시지</strong> – 팥껍질 염색, 팥재 사용 업사이클 굿즈</li>
+    </ul>
+    <p class="tip">
+      ‘레드 빈(RED BEAN)’은 K-디저트와 함께 **긍정·도전** 이미지를 얻어
+      스타트업 로고 컬러, 건강식 패키지에도 널리 쓰이고 있습니다.
+    </p>
+  </section>
+
+  <footer class="story-footer">
+    <small>참고: 『한국민속대백과』, 컬러심리연구 2024, 문화재청 세시풍속 자료</small>
+  </footer>
+</template>
+
+
+  <!-- ───────── 실험실 섹션 ───────── -->
+  <!-- ■■■ 팥 실험실 – 3가지 인터랙티브 실험 ■■■ -->
+<section id="lab" class="section lab-wrapper" data-bg="var(--light)">
+  <h2>팥 실험실</h2>
+  <p>‘삶기 색 변화 + 발아 실험 + 단팥 VS 난팥’ 3단계로 팥을 탐험해 보세요!</p>
+  <!-- ▼ 실험 탭 -->
+  <ul class="lab-tab-list">
+    <li class="lab-tab active" data-exp="exp1">삶기 색 변화</li>
+    <li class="lab-tab"          data-exp="exp2">발아 실험</li>
+    <li class="lab-tab"          data-exp="exp3">단팥 vs 난팥</li>
+  </ul>
+  <!-- ★ 실험 1 : 삶기에 따른 색 변화 ★ -->
+  <div id="exp1" class="lab-content active">
+    <div class="bubbles"></div>
+    <h3>삶는 시간에 따라 달라지는 팥 색</h3>
+
+    <div class="exp1-box">
+      <img id="boil-bean" src="image/lab/bean0.png" alt="삶기 0분 팥">
+      <input id="boil-range" type="range" min="0" max="30" step="5" value="0">
+      <span id="boil-minutes">0 분</span>
+    </div>
+
+  
+
+    <!-- 슬라이더에 따라 텍스트 변경 -->
+    <p id="boil-desc" class="exp-desc">껍질 짙은 선홍색 · 물 투명</p>
+
+    <!-- ▼ bean-shape Q&A 아코디언 ▼ -->
+    <div class="exp1-accordion">
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          껍질 색은 왜 옅어질까?
+        </button>
+        <div class="answer">
+          껍질의 <strong>안토시아닌</strong>은 60℃ 이상에서 물로 빠져나가<br>
+          껍질은 연갈색, 삶은 물은 붉어집니다.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          끓일수록 걸쭉해지는 이유?
+        </button>
+        <div class="answer">
+          팥 안쪽에서 <strong>사포닌</strong>이 빠져나와 점도가 상승합니다.<br>
+          25분에는 팥죽·앙금에 적당한 농도입니다.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          팥 삶기 꿀팁
+        </button>
+        <div class="answer">
+          <ul>
+            <li>시간이 부족하다면 뜨거운 물에 불릴 수 있음</li>
+            <li>압력솥 → 10분이면 30분 효과</li>
+            <li>팥의 종류, 크기, 삶는 방법에 따라 시간이 달라짐</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="exp2" class="lab-content">
+    <h3>팥 발아 과정 타임랩스</h3>
+    <div class="bubbles"></div>
+    <div class="exp2-box">
+      <img id="sprout-img" src="image/lab/sprout0.png" alt="발아 0시간">
+      <input id="sprout-range" type="range" min="0" max="48" step="6" value="0">
+      <span id="sprout-hours">0 h</span>
+    </div>
+
+    <p id="sprout-desc" class="exp-desc">
+      건조한 팥씨가 수분을 흡수해 껍질이 팽창합니다.
+    </p>
+
+    <!-- ★ 발아 Q&A bean-shape Accordion ★ -->
+    <div class="exp2-accordion">
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          껍질이 먼저 불어나는 이유?
+        </button>
+        <div class="answer">
+          껍질 속 수용성 <strong>안토시아닌</strong>과 <strong>사포닌</strong>이 물을 빨아들여 밖으로 팽창합니다.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          뿌리가 나오는 시기?
+        </button>
+        <div class="answer">
+          12~18시간 사이에 배주가 갈라지며, 18시간쯤 뿌리(흡수근)가 눈에 띄기 시작합니다.
+        </div>
+      </div>
+      <div class="accordion-item">
+        <button class="question bean-btn">
+          발아 팁이 있나요?
+        </button>
+        <div class="answer">
+          <ul>
+            <li>솜이 마르지 않도록 물을 자주 보충해주세요.</li>
+            <li>빛이 너무 강하면 떡잎이 말라버리니 직사광선을 피해 관리해주세요.</li>
+            <li>온도는 32~34℃가 제일 좋습니다.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ★ 실험 3 : 단팥 vs 날팥 비교 ★ -->
+  <div id="exp3" class="lab-content">
+    <h3>단팥과 날팥 비교</h3>
+    <div class="bubbles"></div>
+
+    <div class="exp3-flex">
+      <!-- (1) 영양·혈당 막대 차트 -->
+      <canvas id="beanChart" height="320"></canvas>
+
+
+      <!-- 영양 표 -->
+      <table class="nutri-table">
+        <thead><tr><th>항목</th><th>날팥</th><th>단팥</th></tr></thead>
+        <tbody>
+          <tr><td>칼로리(kcal)</td><td>280</td><td>240</td></tr>
+          <tr><td>GI(혈당지수)</td><td>35 (저)</td><td>75 (중~고)</td></tr>
+          <tr><td>당류(g)</td><td>0</td><td>46</td></tr>
+          <tr><td>식이섬유(g)</td><td>7</td><td>5</td></tr>
+          <tr><td>단백질(g)</td><td>19</td><td>6</td></tr>
+          <tr><td>철(mg)</td><td>5.0</td><td>2.1</td></tr>
+          <tr><td>칼륨(mg)</td><td>1 250</td><td>380</td></tr>
+        </tbody>
+      </table>
+
+      <!-- (2) 생김새·구별 카드 -->
+      <!-- ★ 실험 3 비교 설명 Q&A -->
+  <div class="exp3-accordion">
+    <div class="accordion-item">
+      <button class="question bean-btn">
+        난팥 vs 단팥, 어떻게 다를까?
+      </button>
+      <div class="answer">
+        <h4>난팥</h4>
+        <ul>
+          <li><strong>팥소</strong> : 팥을 삶아서 으깨거나 갈아서 만든 것. 주로 떡·빵 속, 만두소, 송편소 등에 사용.</li>
+          <li><strong>팥고물</strong> : 팥을 삶아 으깨거나 갈아서 겉에 묻히는 용도.</li>
+          <li><strong>특징</strong> : 팥 고유의 맛과 향을 살리며, 단맛은 상대적으로 약함.</li>
+        </ul>
+        <h4>단팥</h4>
+        <ul>
+          <li><strong>앙금</strong> : 팥에 설탕을 넣어 달게 만든 팥소. 떡·빵 속재료로 사용.</li>
+          <li><strong>특징</strong> : 팥의 텁텁한 맛을 제거하고 달콤함을 강조.</li>
+          <li><strong>사용 예</strong> : 찐빵·풀빵 등 속재료, 단팥죽·단팥빵 등에 활용.</li>
+        </ul>
+        <p class="conclusion"><strong>결론</strong> : 팥 본연의 맛·향을 원하면 난팥을, 달콤한 팥 맛을 즐기고 싶다면 단팥을 선택하세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ■■■ 스타일 (추가) ■■■ -->
+<style>
+.lab-wrapper{background:var(--light);}
+.lab-tab-list{display:flex;justify-content:center;gap:2rem;margin:1.6rem 0 2rem;padding:0;list-style:none;}
+.lab-tab{cursor:pointer;font-weight:600;color:#555;position:relative;padding:.4rem .6rem;}
+.lab-tab.active{color:var(--bean-red);}
+.lab-tab::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--bean-red);transition:width .3s;}
+.lab-tab.active::after{width:100%;}
+.lab-content{display:none;max-width:720px;margin:0 auto;}
+.lab-content.active{display:block;animation:fadeIn .3s;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.exp1-box, .exp2-box{display:flex;flex-direction:column;align-items:center;gap:.8rem;margin:1.2rem 0;}
+.exp1-box img, .exp2-box img{width:260px;height:auto;border-radius:12px;object-fit:cover;box-shadow:0 2px 6px rgba(0,0,0,.1);}
+.exp-desc{font-size:.95rem;color:#444;margin-top:.6rem;}
+
+.compare-desc{max-width:420px;margin:1rem auto 0;display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;}
+.compare-desc dt{font-weight:600;color:var(--bean-red);}
+.compare-desc dd{margin:0;color:#333;}
+</style>
+
+<!-- ■■■ 기능 스크립트 ■■■ -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  /* 탭 전환 */
+  document.querySelectorAll('.lab-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.lab-tab').forEach(t=>t.classList.toggle('active',t===tab));
+      document.querySelectorAll('.lab-content').forEach(c=>c.classList.toggle('active',c.id===tab.dataset.exp));
+    });
+  });
+
+  /* === 실험 1 : 색 변화 === */
+  const boilImg = document.getElementById('boil-bean');
+  const boilRange = document.getElementById('boil-range');
+  const boilMin = document.getElementById('boil-minutes');
+  const boilDesc  = document.getElementById('boil-desc');   // ★ 추가
+
+  const minuteText = {                                      // ★ 추가
+    0 : '껍질 짙은 선홍색 · 물 투명',
+    5 : '껍질 색 조금 옅어짐 · 물 연한 홍색',
+    10: '껍질 주름 시작 · 물 붉은기 확연',
+    15: '껍질 벌어짐 · 알맹이 드러남',
+    20: '껍질 대부분 벗겨짐 · 물 진한 갈색',
+    25: '알맹이 붉은 기 빠짐 · 물 탁해짐',
+    30: '완전 익음 · 연갈색 껍질 · 물 가장 진함'
+  };
+
+  boilRange.addEventListener('input',()=>{
+    const min = boilRange.value;
+    boilImg.src = `image/lab/bean${min}.png`;   // 0,5,10,…30 분 이미지
+    boilMin.textContent = `${min} 분`;
+    boilDesc.textContent = minuteText[min];
+  });
+
+  /* === 실험 2 : 발아 === */
+const sproutImg  = document.getElementById('sprout-img');
+const sproutRange= document.getElementById('sprout-range');
+const sproutH    = document.getElementById('sprout-hours');
+const sproutDesc = document.getElementById('sprout-desc');   // ★ 추가
+
+const hourText = {           // ★ 시간별 설명
+  0 :  '건조한 팥씨가 수분을 흡수해 껍질이 팽창합니다.',
+  6 :  '껍질이 불어나고 배주가 하얗게 돌출되기 시작합니다.',
+  12:  '뿌리가 2~3 mm 자라며 껍질이 갈라집니다.',
+  18:  '뿌리 5 mm↑, 흡수근이 생기며 수분 흡수가 활발해집니다.',
+  24:  '첫 떡잎(배엽) 돌출 – 광합성 준비 단계입니다.',
+  30:  '뿌리 1 cm, 떡잎이 선명해집니다.',
+  36:  '뿌리가 가늘게 분기, 연녹색 떡잎이 펼쳐집니다.',
+  42:  '떡잎이 진한 녹색, 새 뿌리가 빠르게 늘어납니다.',
+  48:  '발아 완료! 길이 2~3 cm, 모종 이식 가능 단계입니다.'
+};
+
+sproutRange.addEventListener('input',()=>{
+  const hr = sproutRange.value;
+  sproutImg.src = `image/lab/sprout${hr}.png`;
+  sproutH.textContent = `${hr} h`;
+  sproutDesc.textContent = hourText[hr];  // ★ 설명 갱신
+});
+
+
+  /* === 실험 3 : Chart.js 비교 === */
+  new Chart(document.getElementById('beanChart'),{
+    type:'bar',
+    data:{
+      labels:['당류(%)','식이섬유(g)','단백질(g)'],
+      datasets:[
+        {label:'단팥',data:[46,5,6],backgroundColor:'#b02424'},
+        {label:'날팥',data:[0,7,19],backgroundColor:'#7B2E2E'}
+      ]
+    },
+    options:{
+      plugins:{legend:{display:true}},
+      scales:{y:{beginAtZero:true}}
+    }
+  });
+});
+</script> 
+
+<!-- ───────── 스크립트 ①: 네비 색·서브탭 ───────── -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  /* Header 배경 & 네비 강조 */
+  const header   = document.getElementById('main-header');
+  const sections = document.querySelectorAll('main.hero, section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const id = entry.target.id;          // 섹션 id ("home" , "about" …)
+
+      /* ① Hero(첫 화면) 안에 있을 때 → 완전 투명 */
+      if (entry.isIntersecting && id === 'home') {
+        header.classList.add('transparent');
+        header.style.backgroundColor = 'transparent';   // <-- 더 이상 덮어쓰지 않음
+
+      /* ② Hero를 벗어나 다른 섹션이 들어오면 → 그 섹션 색상을 반영 */
+      } else if (entry.isIntersecting && id !== 'home') {
+        header.classList.remove('transparent');
+        header.style.backgroundColor =
+          getComputedStyle(entry.target).backgroundColor;
+      }
+    });
+  }, { threshold: 0.6 });
+  sections.forEach(s=>s.id && observer.observe(s));
+
+  /* About 서브탭 */
+  const tabItems = document.querySelectorAll('.subtab-item');
+  const tabContents = document.querySelectorAll('.subtab-content');
+  tabItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+      tabItems.forEach(i=>i.classList.toggle('active',i===item));
+      tabContents.forEach(c=>c.classList.toggle('active',c.id===item.dataset.tab));
+      document.querySelector('#about')
+              .scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+});
+</script>
+
+<!-- ───────── 스크립트 ②: 팥 이야기 팝업 ───────── -->
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const popup   = document.getElementById('story-popup');
+  const article = document.getElementById('story-content');
+  const closeBtn= popup.querySelector('.close-btn');
+
+  document.querySelectorAll('.story-card').forEach(card=>{
+    card.addEventListener('click',()=>{
+      const tpl = document.getElementById(`tpl-${card.dataset.id}`);
+      if(!tpl) return;
+      article.innerHTML='';
+      article.appendChild(tpl.content.cloneNode(true));
+      popup.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+    });
+  });
+
+  const closePopup=()=>{
+    popup.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  };
+  closeBtn.addEventListener('click',closePopup);
+  popup.addEventListener('click',e=>{if(e.target===popup) closePopup();});
+});
+</script>
+
+<script>
+let io;   /* ← 관찰자 전역으로 빼기 */
+
+document.addEventListener('DOMContentLoaded', () => {
+  /* -------------------- ① IntersectionObserver -------------------- */
+  io = new IntersectionObserver(
+    entries => entries.forEach(en=>{
+      if (en.isIntersecting){
+        en.target.classList.add('show');
+        io.unobserve(en.target);          // 1회만 실행
+      }
+    }),
+    { threshold:.25 }
+  );
+  /* 처음 로딩 때 관찰 시작 */
+  document.querySelectorAll('.scroll-reveal').forEach(el=>io.observe(el));
+
+  /* -------------------- ② About 서브탭 -------------------- */
+  const tabItems    = document.querySelectorAll('.subtab-item');
+  const tabContents = document.querySelectorAll('.subtab-content');
+
+  tabItems.forEach(item=>{
+    item.addEventListener('click',()=>{
+      /* (기존) 탭 on/off 처리 */
+      tabItems.forEach(i=>i.classList.toggle('active',i===item));
+      tabContents.forEach(c=>c.classList.toggle('active',c.id===item.dataset.tab));
+
+      /* ▼▼▼   새로 열린 탭 안 .scroll-reveal 요소를 다시 관찰   ▼▼▼ */
+      document
+        .querySelectorAll(`#${item.dataset.tab} .scroll-reveal:not(.show)`)
+        .forEach(el=>io.observe(el));
+
+      /* (선택) 탭 클릭하면 about 섹션 맨 위로 스무스 스크롤 */
+      document.querySelector('#about').scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.exp1-accordion .bean-btn')
+      .forEach(btn => {
+        btn.addEventListener('click', () => {
+          // 클릭한 것만 토글
+          const item = btn.parentElement;
+          // 먼저 모두 닫고
+          document.querySelectorAll('.exp1-accordion .accordion-item')
+            .forEach(i => i.classList.remove('active'));
+          // 선택한 것만 열기
+          item.classList.toggle('active');
+        });
+      });
+  });
+  /* 발아 실험 Q&A 토글 */
+  document.querySelectorAll('#exp2 .exp2-accordion .question.bean-btn')
+    .forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.accordion-item');
+        const nowOpen = item.classList.toggle('active');
+
+        // 다른 아이템 닫기
+        item.parentNode.querySelectorAll('.accordion-item')
+          .forEach(sib => {
+            if (sib !== item) sib.classList.remove('active');
+          });
+      });
+  });
+
+  // exp1·exp2 와 동일한 로직에, exp3도 포함만 시켜주면 됩니다.
+  document.querySelectorAll('.exp3-accordion .accordion-item .question').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const item = btn.closest('.accordion-item');
+      item.classList.toggle('active');
+    });
+  });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const containers = document.querySelectorAll('#lab .bubbles');
+  if (!containers.length) {
+    console.error('❌ .bubbles 컨테이너를 찾을 수 없습니다.');
+    return;
+  }
+
+  function createBubble(container) {
+    const b = document.createElement('span');
+    b.className = 'bubble';
+    // size, drift, rise 설정은 그대로
+    const size = 10 + Math.random() * 40;
+    b.style.setProperty('--size', size + 'px');
+    const drift = (Math.random() * 60 - 30).toFixed(1);
+    b.style.setProperty('--drift', drift + 'px');
+    const rise = (5 + Math.random() * 3).toFixed(2);
+    b.style.setProperty('--rise', rise + 's');
+
+    container.appendChild(b);
+    b.addEventListener('animationend', () => b.remove());
+  }
+
+  containers.forEach(container => {
+    createBubble(container);
+    setInterval(() => createBubble(container), 300);
+  });
+
+  console.log('🟢 버블 스크립트 로드 완료. 모든 실험에 적용 중.');
+});
+
+// ① createBubble 함수 (삶기에서 쓰던 그대로)
+function createBubble(container) {
+  const b = document.createElement('span');
+  b.className = 'bubble';
+
+  // 크기
+  const size = 10 + Math.random() * 40;
+  b.style.setProperty('--size', `${size}px`);
+
+  // 가로 위치: 0% ~ 100%
+  b.style.left = Math.random() * 100 + '%';
+
+  // drift: ±50px
+  const drift = (Math.random() * 100 - 50).toFixed(1);
+  b.style.setProperty('--drift', `${drift}px`);
+
+  // rise (5~8초)
+  const rise = (5 + Math.random() * 3).toFixed(2);
+  b.style.setProperty('--rise', `${rise}s`);
+
+  container.appendChild(b);
+  b.addEventListener('animationend', () => b.remove());
+}
+
+// ② DOMContentLoaded 에서 .bubbles 컨테이너 전부에 적용
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('#lab .bubbles').forEach(container => {
+    // 첫 버블 하나
+    createBubble(container);
+    // 300ms 마다 계속 생성
+    setInterval(() => createBubble(container), 300);
+  });
+});
+</script>
+
+  <footer>
+    © 2025 팥랩 – 기말 프로젝트
+  </footer>
+
+</body>
+</html>
